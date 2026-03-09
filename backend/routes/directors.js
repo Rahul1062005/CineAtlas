@@ -64,6 +64,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Update director photo
+router.patch("/:id/photo", async (req, res) => {
+  try {
+    const { photo } = req.body;
+    const director = await Director.findByIdAndUpdate(
+      req.params.id,
+      { photo },
+      { new: true }
+    );
+    if (!director) {
+      return res.status(404).json({ error: "Director not found" });
+    }
+    res.json(director);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update director photo" });
+  }
+});
+
 // Search movies
 router.get("/search/:title", async (req, res) => {
   try {
